@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>星河机器人 - 微信消息自动化解决方案</title>
+    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Noto Sans SC", sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+        color: #2d3748;
+      }
+      .glassmorphism {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 28px 0 rgba(31, 38, 135, 0.2);
+      }
+      .highlight-text {
+        position: relative;
+        display: inline-block;
+      }
+      .highlight-text::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 10px;
+        background-color: rgba(99, 102, 241, 0.2);
+        z-index: -1;
+      }
+      .bg-gradient-primary {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      }
+      .shadow-glow {
+        box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.5);
+      }
+      .mobile-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        padding: 1rem;
+        margin: 0.5rem;
+        border-radius: 0.75rem;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        transform-origin: top;
+        transform: scaleY(0);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        z-index: 100;
+      }
+      .mobile-menu.active {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen">
+    <!-- 导航条 -->
+    <nav class="glassmorphism sticky top-0 z-50 p-4 mb-8" id="mainNav">
+      <div class="container mx-auto flex items-center justify-between">
+        <div
+          class="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text"
+        >
+          <i class="fas fa-robot mr-2"></i>星河机器人
+        </div>
+        <div class="hidden md:flex space-x-6">
+          <a
+            href="#features"
+            class="text-gray-600 hover:text-indigo-600 transition-colors"
+            >产品特点</a
+          >
+          <a
+            href="#pricing"
+            class="text-gray-600 hover:text-indigo-600 transition-colors"
+            >价格方案</a
+          >
+          <a
+            href="#download"
+            class="text-gray-600 hover:text-indigo-600 transition-colors"
+            >下载安装</a
+          >
+        </div>
+        <button
+          class="md:hidden text-gray-600 focus:outline-none"
+          id="mobileMenuButton"
+          aria-label="导航菜单"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- 移动端导航菜单 -->
+        <div class="mobile-menu md:hidden" id="mobileMenu">
+          <a
+            href="#features"
+            class="text-gray-600 hover:text-indigo-600 transition-colors flex items-center"
+          >
+            <i class="fas fa-star mr-3 text-indigo-500"></i>产品特点
+          </a>
+          <a
+            href="#pricing"
+            class="text-gray-600 hover:text-indigo-600 transition-colors flex items-center"
+          >
+            <i class="fas fa-tag mr-3 text-indigo-500"></i>价格方案
+          </a>
+          <a
+            href="#download"
+            class="text-gray-600 hover:text-indigo-600 transition-colors flex items-center"
+          >
+            <i class="fas fa-download mr-3 text-indigo-500"></i>下载安装
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 头部横幅 -->
+    <header class="container mx-auto py-16 px-4 md:px-8 relative">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+          微信消息自动化解决方案
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-600 mb-8">
+          星河机器人 - 稳定、高效、安全的微信消息自动化工具
+        </p>
+        <div class="flex justify-center gap-4">
+          <a
+            href="#pricing"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-lg"
+          >
+            <i class="fas fa-shopping-cart mr-2"></i>立即购买
+          </a>
+          <a
+            href="#download"
+            class="bg-white hover:bg-gray-100 text-indigo-600 font-bold py-3 px-6 rounded-lg transition-colors shadow-lg border border-indigo-100"
+          >
+            <i class="fas fa-download mr-2"></i>免费下载
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- 产品特点部分 -->
+    <section id="features" class="container mx-auto py-12 px-4 md:px-8">
+      <div class="glassmorphism p-8 mb-16">
+        <h2 class="text-3xl font-bold mb-6 flex items-center">
+          <div
+            class="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center text-white mr-3"
+          >
+            <i class="fas fa-star"></i>
+          </div>
+          产品特点
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <p class="mb-4">
+              星河机器人是一款专业的微信消息自动化工具，专为企业和个人用户设计，用于在服务器接收微信窗口的消息和发送消息。
+            </p>
+
+            <div class="my-6">
+              <h4 class="font-semibold text-lg mb-3 text-gray-700">
+                核心优势：
+              </h4>
+              <div class="space-y-4">
+                <div class="flex items-start">
+                  <div
+                    class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3 mt-1"
+                  >
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div>
+                    <h5 class="font-medium text-gray-800">稳定可靠</h5>
+                    <p class="text-sm text-gray-600">
+                      采用先进技术，确保长时间稳定运行，<span
+                        class="highlight-text"
+                        >不封号</span
+                      >，保障业务连续性
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3 mt-1"
+                  >
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div>
+                    <h5 class="font-medium text-gray-800">价格实惠</h5>
+                    <p class="text-sm text-gray-600">
+                      相比同类产品，<span class="highlight-text"
+                        >价格更优惠</span
+                      >，性价比极高
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3 mt-1"
+                  >
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div>
+                    <h5 class="font-medium text-gray-800">功能强大</h5>
+                    <p class="text-sm text-gray-600">
+                      支持消息接收、发送、自动回复等<span class="highlight-text"
+                        >多种功能</span
+                      >，满足不同场景需求
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-center">
+            <img
+              src="https://img.picui.cn/free/2025/05/25/68324b0cc09f8.png"
+              alt="星河机器人界面"
+              class="rounded-lg shadow-lg max-w-full h-auto"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 价格方案部分 -->
+    <section id="pricing" class="container mx-auto py-12 px-4 md:px-8">
+      <h2 class="text-3xl font-bold mb-12 text-center">价格方案</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div class="glassmorphism p-8 card-hover text-center">
+          <div
+            class="bg-indigo-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6"
+          >
+            <i class="fas fa-calendar-alt text-indigo-600 text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4">月卡</h3>
+          <div class="text-4xl font-bold text-indigo-600 mb-6">¥399</div>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center">
+              <i class="fas fa-check text-green-500 mr-2"></i>
+              <span>30天使用权</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-check text-green-500 mr-2"></i>
+              <span>免费更新</span>
+            </li>
+          </ul>
+          <a
+            href="http://s0r.cn/CnAyg"
+            target="_blank"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition-colors inline-block w-full"
+          >
+            立即购买
+          </a>
+        </div>
+
+        <div
+          class="glassmorphism p-8 card-hover text-center relative"
+          style="transform: translateY(-10px)"
+        >
+          <div
+            class="absolute top-0 right-0 bg-yellow-400 text-yellow-900 px-3 py-1 rounded-bl-lg rounded-tr-lg text-sm font-bold"
+          >
+            最受欢迎
+          </div>
+          <div
+            class="bg-purple-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6"
+          >
+            <i class="fas fa-calendar-check text-purple-600 text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4">季卡</h3>
+          <div class="text-4xl font-bold text-purple-600 mb-6">¥1200</div>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center">
+              <i class="fas fa-check text-green-500 mr-2"></i>
+              <span>90天使用权</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-check text-green-500 mr-2"></i>
+              <span>免费更新</span>
+            </li>
+          </ul>
+          <a
+            href="http://s0r.cn/CnAyg"
+            target="_blank"
+            class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors inline-block w-full"
+          >
+            立即购买
+          </a>
+        </div>
+
+        <div class="glassmorphism p-8 card-hover text-center">
+          <div
+            class="bg-green-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6"
+          >
+            <i class="fas fa-calendar-star text-green-600 text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4">年卡</h3>
+          <div class="text-4xl font-bold text-green-600 mb-6">¥3600</div>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center">
+              <i class="fas fa-check text-green-500 mr-2"></i>
+              <span>365天使用权</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-check text-green-500 mr-2"></i>
+              <span>免费更新</span>
+            </li>
+          </ul>
+          <a
+            href="http://s0r.cn/CnAyg"
+            target="_blank"
+            class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors inline-block w-full"
+          >
+            立即购买
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 下载安装部分 -->
+    <section id="download" class="container mx-auto py-12 px-4 md:px-8 mb-16">
+      <div class="glassmorphism p-8">
+        <h2 class="text-3xl font-bold mb-6 flex items-center">
+          <div
+            class="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center text-white mr-3"
+          >
+            <i class="fas fa-download"></i>
+          </div>
+          下载安装
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <p class="mb-6">
+              星河机器人提供简单易用的安装包，支持Windows系统，下载后按照向导完成安装即可使用。
+            </p>
+
+            <div class="bg-blue-50 rounded-xl p-6 mb-6">
+              <h4 class="font-semibold text-lg mb-3 text-blue-800">
+                系统要求：
+              </h4>
+              <ul class="space-y-2">
+                <li class="flex items-center">
+                  <i class="fas fa-check-circle text-blue-500 mr-2"></i>
+                  <span>Windows 7/8/10/11 (64位)</span>
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-check-circle text-blue-500 mr-2"></i>
+                  <span>4GB以上内存</span>
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-check-circle text-blue-500 mr-2"></i>
+                  <span>100MB以上可用磁盘空间</span>
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-check-circle text-blue-500 mr-2"></i>
+                  <span>已安装微信客户端</span>
+                </li>
+              </ul>
+            </div>
+
+            <a
+              href="https://wwrd.lanzoup.com/i2ffg2x75rid"
+              target="_blank"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition-colors inline-block"
+            >
+              <i class="fas fa-download mr-2"></i>立即下载
+            </a>
+          </div>
+          <div class="flex items-center justify-center">
+            <img
+              src="https://s.coze.cn/t/6p222v5hOco/"
+              alt="安装过程"
+              class="rounded-lg shadow-lg max-w-full h-auto"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-100 py-8">
+      <div class="container mx-auto px-4 md:px-8 text-center text-gray-600">
+        <p class="mb-2">© 2025 星河机器人</p>
+        <p class="text-sm">
+          <a target="_blank" class="text-indigo-600 hover:text-indigo-800"></a>
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // 移动端导航菜单切换
+      document.addEventListener("DOMContentLoaded", function () {
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            if (this.getAttribute("href").startsWith("http")) return;
+
+            e.preventDefault();
+            document.querySelector(this.getAttribute("href")).scrollIntoView({
+              behavior: "smooth",
+            });
+
+            // 点击导航链接后关闭移动端菜单
+            const mobileMenu = document.getElementById("mobileMenu");
+            if (mobileMenu.classList.contains("active")) {
+              mobileMenu.classList.remove("active");
+              // 同时切换图标回汉堡按钮
+              const menuIcon = document.querySelector("#mobileMenuButton i");
+              menuIcon.classList.remove("fa-times");
+              menuIcon.classList.add("fa-bars");
+            }
+          });
+        });
+
+        // 移动端导航菜单切换
+        const menuButton = document.getElementById("mobileMenuButton");
+        const mobileMenu = document.getElementById("mobileMenu");
+
+        menuButton.addEventListener("click", function () {
+          mobileMenu.classList.toggle("active");
+
+          // 切换图标
+          const icon = this.querySelector("i");
+          if (mobileMenu.classList.contains("active")) {
+            icon.classList.remove("fa-bars");
+            icon.classList.add("fa-times");
+          } else {
+            icon.classList.remove("fa-times");
+            icon.classList.add("fa-bars");
+          }
+        });
+
+        // 点击页面其他区域关闭移动端菜单
+        document.addEventListener("click", function (event) {
+          const isClickInsideNav = document
+            .getElementById("mainNav")
+            .contains(event.target);
+
+          if (!isClickInsideNav && mobileMenu.classList.contains("active")) {
+            mobileMenu.classList.remove("active");
+            const icon = menuButton.querySelector("i");
+            icon.classList.remove("fa-times");
+            icon.classList.add("fa-bars");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
